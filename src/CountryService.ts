@@ -135,7 +135,7 @@ export const getCountriesAsync = async (
     return []
   }
 
-  if (preferredCountries && !withAlphaFilter) {
+  if (preferredCountries) {
     const newCountryCodeList = [...preferredCountries, ...CountryCodeList.filter(code => !preferredCountries.includes(code))]
 
     const countries = newCountryCodeList.filter(isCountryPresent(countriesRaw))
@@ -154,7 +154,9 @@ export const getCountriesAsync = async (
     .filter(isSubregion(subregion))
     .filter(isIncluded(countryCodes))
     .filter(isExcluded(excludeCountries))
-    
+    .sort((country1: Country, country2: Country) =>
+        (country1.name as string).localeCompare(country2.name as string),
+      )
     return countries
 
   } else {
